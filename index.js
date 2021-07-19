@@ -50,5 +50,33 @@ function diffArray(arr1, arr2) {
   return  filtered
 }
 
-diffArray([40, 2, 3, 20], [1, 40, 3, 4, 20]);
+/* diffArray([40, 2, 3, 20], [1, 40, 3, 4, 20]);
 diffArray([4, 3, 7], [1,2])
+
+ */
+/*
+Seek and Destroy 
+You will be provided with an initial array (the first argument in the destroyer function), 
+followed by one or more arguments. Remove all elements from the initial array that are of the same value as these arguments.
+
+Note: You have to use the arguments object.
+
+
+*/
+
+function destroyer(arr) {
+  let myArg= [...arguments].splice(1,)
+  let joinedArray = myArg.concat(arr)
+  
+  let finalArr = joinedArray.filter(element => {
+      if(myArg.includes(element)){
+          return;
+      }
+      else{
+          return element
+      }
+  } )
+  return finalArr
+}
+
+destroyer([1, 2, 3, 1, 2, 3], 2, 3);
