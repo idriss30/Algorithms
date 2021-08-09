@@ -110,6 +110,45 @@ whatIsInAName([
  { first: "Tybalt", last: "Capulet" }],
  { last: "Capulet" }
 );
+ //whatIsInAName([{ "apple": 1, "bat":4 }, { "apple": 1 }, { "bat": 2 }], { "apple": 1, "bat":2})
 
-whatIsInAName([{ "apple": 1, "bat":4 }, { "apple": 1 }, { "bat": 2 }], { "apple": 1, "bat":2})
-whatIsInAName([{ "apple": 1, "bat": 2 }, { "bat": 2 }, { "apple": 1, "bat": 2, "cookie": 2 }], { "apple": 1, "bat": 2 })
+
+
+ //Convert a string to spinal case. Spinal case is all-lowercase-words-joined-by-dashes.
+function spinalCase(str) {
+let regex = /\s|_/g
+ str = str.replace(regex, "-")
+
+let indices = []
+for(let i = 0; i < str.length; i++){
+    if(str.charAt(i) === str.charAt(i).toUpperCase()){
+        indices.push(i)
+    }
+}
+
+ if(indices[0]!== 0){
+        indices.unshift(0)
+}
+
+let words = []
+indices.forEach((item, index)=>{
+  
+   words.push(str.slice(item, indices[index+1]))
+})
+
+str = words.join('-').toLowerCase();
+let regex2 = /-{2,}/g
+str = str.replace(regex2, '-');
+
+return str
+
+}
+
+
+
+
+spinalCase('This Is Spinal Tap');
+ spinalCase("thisIsSpinalTap");
+spinalCase("The_Andy_Griffith_Show")
+spinalCase("AllThe-small Things")
+spinalCase("Teletubbies say Eh-oh")
