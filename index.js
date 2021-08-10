@@ -184,6 +184,41 @@ function translatePigLatin(str) {
 
 }
 
-translatePigLatin("consonant");
+/* translatePigLatin("consonant");
 translatePigLatin("algorithm");
 translatePigLatin("glove")
+ */
+
+
+/*Perform a search and replace on the sentence using the arguments provided and return the new sentence.
+
+First argument is the sentence to perform the search and replace on.
+
+Second argument is the word that you will be replacing (before).
+
+Third argument is what you will be replacing the second argument with (after).   */
+
+
+function myReplace(str, before, after) {
+     let regex = new RegExp(before, 'gi');
+     let isMatching = str.match(regex);
+     if(isMatching.join('').charAt(0) === isMatching.join('').charAt(0).toUpperCase()){
+         let finalAfter = after.replace(after.charAt(0), after.charAt(0).toUpperCase());
+         
+         return  str =  str.replace(isMatching.join(''), finalAfter);  
+          
+     }
+
+
+     str = str.replace(before, after.toLowerCase());
+  
+     return str;
+     
+     
+ 
+}
+
+
+
+//myReplace("A quick brown fox Jumped over the lazy dog", "jumped", "leaped");
+
