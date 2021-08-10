@@ -147,8 +147,43 @@ return str
 
 
 
-spinalCase('This Is Spinal Tap');
+/* spinalCase('This Is Spinal Tap');
  spinalCase("thisIsSpinalTap");
 spinalCase("The_Andy_Griffith_Show")
 spinalCase("AllThe-small Things")
 spinalCase("Teletubbies say Eh-oh")
+ */
+
+
+
+
+/* Pig Latin is a way of altering English Words. The rules are as follows:
+
+- If a word begins with a consonant, take the first consonant or consonant cluster, move it to the end of the word, and add ay to it.
+
+- If a word begins with a vowel, just add way at the end. */
+
+function translatePigLatin(str) {
+
+  let vowelsRegex = /^[aeoui]/i
+  if(vowelsRegex.test(str.charAt(0)))  return str = str + 'way';
+
+  let consonantRegex = /\b[^eaoui]+/g
+  const matchArr = str.match(consonantRegex);
+  if(matchArr.length >0){
+     const beginSentence = str.replace(matchArr.join(''), "");
+     str = beginSentence + matchArr.join('') + 'ay'
+     
+     return str;
+  }
+  else{
+      return str = str + 'ay'
+  }
+
+  
+
+}
+
+translatePigLatin("consonant");
+translatePigLatin("algorithm");
+translatePigLatin("glove")
