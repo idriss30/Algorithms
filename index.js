@@ -205,20 +205,63 @@ function myReplace(str, before, after) {
      if(isMatching.join('').charAt(0) === isMatching.join('').charAt(0).toUpperCase()){
          let finalAfter = after.replace(after.charAt(0), after.charAt(0).toUpperCase());
          
-         return  str =  str.replace(isMatching.join(''), finalAfter);  
-          
+         return  str =  str.replace(isMatching.join(''), finalAfter);       
      }
-
-
      str = str.replace(before, after.toLowerCase());
   
      return str;
-     
-     
- 
 }
 
 
 
 //myReplace("A quick brown fox Jumped over the lazy dog", "jumped", "leaped");
 
+
+/*    
+The DNA strand is missing the pairing element. Take each character, get its pair, and return the results as a 2d array.
+
+Base pairs are a pair of AT and CG. Match the missing element to the provided character.
+
+Return the provided character as the first element in each array.
+
+For example, for the input GCG, return [["G", "C"], ["C","G"], ["G", "C"]]
+
+The character and its pair are paired up in an array, and all the arrays are grouped into one encapsulating array.
+
+
+
+*/
+
+function pairElement(str) {
+   let finalArr = []
+    for(let i =  0; i < str.length; i++){
+      /*  switch (str[i]) {
+           case 'T':
+               finalArr.push(["T", "A"])
+               break;
+           case 'A':
+               finalArr.push(['A', 'T'])
+               break;
+
+           case 'G':
+               finalArr.push(['G', "C"])
+               break;
+           case 'C' :
+               finalArr.push(['C','G'])
+           default:
+               break;
+       } */
+
+       // second solution 
+       str[i] === 'T' ? finalArr.push(['T', 'A']) : str[i] === 'A' ? finalArr.push(['A', 'T']) : null;
+       str[i] === 'C' ? finalArr.push(['C', 'G']) : str[i] === 'G' ? finalArr.push(['G', 'C']) : null;
+    }
+
+    
+  return finalArr;
+}
+
+pairElement("GCG");
+pairElement("ATCGA");
+pairElement("TTGAG");
+pairElement("CTCTA")
