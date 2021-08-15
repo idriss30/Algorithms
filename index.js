@@ -261,7 +261,45 @@ function pairElement(str) {
   return finalArr;
 }
 
-pairElement("GCG");
+/* pairElement("GCG");
 pairElement("ATCGA");
 pairElement("TTGAG");
-pairElement("CTCTA")
+pairElement("CTCTA") */
+
+
+// Find the missing letter in the passed letter range and return it.
+
+// If all letters are present in the range, return undefined.
+
+function fearNotLetter(str) {
+
+ let alphabet = 'abcdefghijklmnopqrstuvwxyz'
+ let index = alphabet.indexOf(str.charAt(0));
+ let lastIndex = alphabet.indexOf(str.charAt(str.length));
+ let finalAlphabet =  alphabet.slice(index, lastIndex -1);
+
+
+if(str === alphabet){
+    return undefined
+}
+ 
+
+ for(let i = 0; i < str.length; i++){
+    if(str.charAt(i) !== finalAlphabet.charAt(i)){
+       return str = finalAlphabet.charAt(i)
+    }
+   
+ }
+
+}
+
+
+
+
+fearNotLetter("abce");
+fearNotLetter("abcdefghjklmno")
+fearNotLetter("stvwx")
+console.log(fearNotLetter("abcdefghijklmnopqrstuvwxyz"))
+
+
+
