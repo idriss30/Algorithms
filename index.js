@@ -336,3 +336,29 @@ return arr
 uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1]);
 uniteUnique([1, 2, 3], [5, 2, 1]);
 uniteUnique([1, 2, 3], [5, 2, 1, 4], [2, 1], [6, 7, 8])
+
+
+//Convert the characters &, <, >, " (double quote), and ' (apostrophe), in a string to their corresponding HTML entities.
+
+function convertHTML(str) {
+ str.includes('& ') ? str = str.replace(/&/g, '&amp; ') : str = str;
+ str.includes('<') ? str = str.replace(/</g, '&lt;') : str = str;
+ str.includes('>') ? str = str.replace(/>/g, '&gt;') : str = str;
+ str.includes('"') ? str = str.replace(/"/g, "&quot;") : str = str;
+ str.includes("'") ? str = str.replace(/'/g, "&apos;") : str = str;
+
+
+
+ return str;
+  
+}
+
+
+/* convertHTML("Dolce & Gabbana");
+convertHTML("Hamburgers < Pizza < Tacos");
+convertHTML("Sixty > twelve");
+convertHTML('Stuff in "quotation marks"')
+convertHTML("Schindler's List")
+convertHTML("<>")
+convertHTML('abc')
+ */
