@@ -362,3 +362,31 @@ convertHTML("Schindler's List")
 convertHTML("<>")
 convertHTML('abc')
  */
+
+//Sum All Odd Fibonacci NumbersPassed
+
+function sumFibs(num) {
+
+if(num === 2 || num === 1)return 1;
+let fiboNumber  = [1,1]
+for(let i = 2; i < num; i++ ){
+     let value = fiboNumber[i-2] + fiboNumber[i-1];
+     fiboNumber.push(value);
+}
+
+let el = fiboNumber.filter(el => el % 2 !== 0 && el <= num).reduce((a, b) =>{
+   return a + b
+},0)
+
+return el;
+
+
+}
+
+/* 
+
+sumFibs(4)
+sumFibs(10)
+sumFibs(1);
+
+ */
