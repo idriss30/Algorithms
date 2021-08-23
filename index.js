@@ -434,3 +434,21 @@ dropElements([1, 2, 3, 4], function (n) {
 dropElements([0, 1, 0, 1], function (n) {
   return n === 1;
 }); */
+
+/*  Steamroller
+Flatten a nested array. You must account for varying levels of nesting.    */
+
+function steamrollArray(arr) {
+  let holdingArr = [];
+  arr.forEach((element) => {
+    if (Array.isArray(element)) {
+      holdingArr.push(...steamrollArray(element));
+    } else {
+      holdingArr.push(element);
+    }
+  });
+
+  return holdingArr;
+}
+
+// steamrollArray([1, [2], [3, [[4]]]]);
