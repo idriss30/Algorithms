@@ -452,3 +452,171 @@ function steamrollArray(arr) {
 }
 
 // steamrollArray([1, [2], [3, [[4]]]]);
+
+// stacks are collections of items that follow LIFO principle
+// addition or removals of existing items take place at the same end.
+// end is know as the top (newest element) and the opposite side is known as the base (oldest element)
+
+/* Stacks have a variety of applications in real-world problems. They can be used for
+backtracking problems to remember tasks or paths visited, and to undo actions   */
+
+/* A queue is an ordered collection of items that follows the FIFO (First In First Out), also
+known as the first-come first-served principle. The addition of new elements in a queue is at
+the tail, and the removal is from the front  */
+
+let items = [];
+
+function Queue() {
+  this.enqueue = function (element) {
+    items.push(element);
+  };
+
+  this.dequeue = function () {
+    return items.shift();
+  };
+
+  this.front = function () {
+    return items[0];
+  };
+
+  this.isEmpty = function () {
+    return items.length == 0;
+  };
+
+  this.print = function () {
+    return items.toString();
+  };
+}
+
+/* let queue = new Queue();
+console.log(queue.isEmpty());
+queue.enqueue("idriss");
+queue.enqueue("jack");
+queue.dequeue();
+console.log(queue.print());
+ */
+
+let Queue2 = (function () {
+  const items = new WeakMap(); // keeps the properties items private by using weakMap()
+  class Queue2 {
+    constructor() {
+      items.set(this, []);
+    }
+
+    enqueue(element) {
+      let q = items.get(this);
+      let r = q.push(element);
+      return r;
+    }
+
+    dequeue() {
+      let q = items.get(this);
+      let r = q.shift();
+      return r;
+    }
+
+    front() {
+      let q = items.get(this);
+      return q[0];
+    }
+    print() {
+      let q = items.get(this);
+
+      return q.toString();
+    }
+  }
+
+  return Queue2;
+})();
+
+//learn about priority queue and circular queue similar to the hot potato game
+/* Linked lists store a sequential collection of elements; but unlike arrays, in linked lists, theelements are not placed contiguously in memory. Each element consists 
+of a node thatstores the element itself and also a reference (also known as a pointer or link) that points tothe next element.     */
+
+function LinkedList() {
+  let Node = function (element) {
+    // helper class needed (item we want to add)
+    this.element = element;
+    this.next = null;
+  };
+
+  let length = 0;
+  let head = null;
+
+  this.append = function (element) {
+    let node = new Node(element),
+      current;
+    if (head === null) {
+      head = node;
+    } else {
+      current = head;
+      while (current.next) {
+        current = current.next;
+      }
+      current.next = node;
+    }
+    length++;
+  };
+}
+
+/* A set is a collection of items that are unordered and consists of unique elements (meaning they cannot be repeated).
+ This data structure uses the same math concept as finite sets butapplied to a computer science data structure. */
+
+function Set() {
+  let items = {};
+
+  this.has = function (value) {
+    return value in items;
+    // better way to implement could be items.hasOwnProperty(value)
+  };
+
+  this.add = function (value) {
+    if (!this.has(value)) {
+      items[value] = value;
+      return true;
+    }
+    return false;
+  };
+
+  this.delete = function (value) {
+    if (this.has(value)) {
+      delete items[value];
+      return true;
+    }
+
+    return false;
+  };
+
+  this.show = function () {
+    return items;
+  };
+
+  this.clear = function () {
+    items = {};
+  };
+
+  this.sizeLegacy = function () {
+    let count = 0;
+    for (let key in items) {
+      if (items.hasOwnProperty(key)) count++;
+    }
+
+    return count;
+  };
+
+  this.values = function () {
+    let values = [];
+    for (let i = 0, keys = Object.keys(items); i < keys.length; i++) {
+      values.push(items[keys[i]]);
+    }
+    return values;
+  };
+}
+
+let set = new Set();
+set.add(2);
+set.add(1);
+
+console.log(set.show());
+console.log(set.sizeLegacy());
+console.log(set.values());
