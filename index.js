@@ -617,6 +617,237 @@ let set = new Set();
 set.add(2);
 set.add(1);
 
-console.log(set.show());
+/* console.log(set.show());
 console.log(set.sizeLegacy());
-console.log(set.values());
+console.log(set.values()); */
+
+/* Sets, dictionaries, and hashes store unique values. In a set, we are interested in the value itself as the primary element. 
+In a dictionary (or map),
+ we store values in pairs as [key,value]. The same goes for hashes (they store values in pairs, such as [key, value]);  */
+// creating hash
+
+let HashTable = function () {
+  let table = [];
+
+  var loseHash = function (key) {
+    let hash = 0;
+    for (let i = 0; i < key.length; i++) {
+      hash += key.charCodeAt(i);
+    }
+    return hash % 37; // divide by arbitrary numbers to work with lower numbers
+  };
+
+  this.put = function (key, value) {
+    let position = loseHash(key);
+    console.log(position + "-" + key);
+    table[position] = value;
+  };
+
+  this.get = function (key) {
+    return table[loseHash(key)];
+  };
+
+  this.remove = function (key) {
+    return (table[loseHash(key)] = undefined);
+    // not removing position because it will shift array, can stay mark has undefined
+  };
+};
+/* 
+let testHash = new HashTable();
+testHash.put("idriss", "idriss@awesome.com");
+testHash.put("chico", "chico@isaNiceDog");
+ */
+
+/* trees
+
+A tree is an abstract model of a hierarchical structure. The most common example of a tree
+in real life would be a family tree or a company organizational chart, 
+
+A binary search tree is a binary tree, but it only allows you to store nodes with lesser values
+on the left-hand side and nodes with greater values on the right-hand side.
+A node in a binary tree has two children at most: one left, one right.
+*/
+
+function BinaryTree() {
+  let Node = function (key) {
+    // key is how a tree is how a tree node is known in tree terminology
+    this.key = key;
+    this.left = null;
+    this.right = null;
+  };
+
+  let root = null; // manage root value
+
+  this.insert = function (key) {
+    let newNode = new Node(key);
+    if (root === null) {
+      root = newNode;
+    } else {
+      insertNode(root, newNode);
+    }
+  };
+
+  let insertNode = function (node, newNode) {
+    if (newNode.key < node.key) {
+      if (node.left === null) {
+        node.left = newNode;
+      } else {
+        insertNode(node.left, newNode);
+      }
+    } else {
+      if (node.right === null) {
+        node.right = newNode;
+      } else {
+        insertNode(node.right, newNode);
+      }
+    }
+  };
+
+  // tree traversal visit each node and perform some operations to it
+
+  // in order traversal implementation , visit node from ascending(small to largest)
+
+  this.inOrderTraverse = function (callback) {
+    // callback to perform the action to the node(visitor pattern)
+
+    inOrderTraverseNode(root, callback);
+  };
+
+  let inOrderTraverseNode = function (node, callback) {
+    if (node !== null) {
+      inOrderTraverseNode(node.left, callback);
+      callback(node.key);
+      inOrderTraverseNode(node.right, callback);
+    }
+  };
+  //preorder traversal node is visited before his descedents
+  // useful implementation when trying to print a structure document
+
+  this.preOrderTraverseNode = function (callback) {
+    preOrderTraversal(root, callback);
+  };
+
+  let preOrderTraversal = function (node, callback) {
+    if (node !== null) {
+      callback(node.key);
+      preOrderTraversal(node.left, callback);
+      preOrderTraversal(node.right, callback);
+    }
+  };
+  /*A post-order traversal visits the node after it visits its descendants. An application of post-
+order traversal could be computing the space used by a file in a directory and its
+subdirectories */
+
+  this.postOrderTraversalNode = function (callback) {
+    postOrderTraversal(root, callback);
+  };
+
+  let postOrderTraversal = function (node, callback) {
+    if (node !== null) {
+      postOrderTraversal(node.left, callback);
+      postOrderTraversal(node.right, callback);
+      callback(node.key);
+    }
+  };
+
+  // find the min
+  this.min = function () {
+    return findMin(root);
+  };
+
+  let findMin = function (node) {
+    if (node) {
+      while (node && node.left !== null) {
+        node = node.left;
+      }
+
+      return node.key;
+    }
+    return null;
+  };
+
+  // search for specific value
+  this.search = function (key) {
+    return searchNode(root, key);
+  };
+
+  let searchNode = function (node, key) {
+    if (node === null) {
+      return false;
+    }
+    if (key < node.key) {
+      return searchNode(node.left, key);
+    } else if (key > node.key) {
+      return searchNode(node.right, key);
+    } else {
+      return true;
+    }
+  };
+
+  this.remove = function (key) {
+    root = removeNode(root, key);
+  };
+
+  let removeNode = function (node, key) {
+    if (node === null) {
+      return null;
+    }
+    if (key < node.key) {
+      node.left = removeNode(node.left, key);
+      return node;
+    } else if (key > node.key) {
+      node.right = removeNode(node.right, key);
+      return node;
+    } else {
+      // key equal to node key
+      // case 1 a leaf node
+      if (node.left === null && node.right === null) {
+        node = null;
+        return node;
+      }
+
+      // node with only one child
+      if (node.left === null) {
+        node = node.right;
+        return node;
+      }
+      if (node.right === null) {
+        node = node.left;
+        return node;
+      }
+
+      // node with two child
+      let aux = findMin(node.right);
+      node.key = aux.key;
+      node.right = removeNode(node.right, aux.key);
+      return node;
+    }
+  };
+}
+
+function printNode(value) {
+  console.log(value);
+}
+
+let tree = new BinaryTree();
+
+tree.insert(11);
+tree.insert(15);
+tree.insert(5);
+tree.insert(3);
+tree.insert(9);
+tree.insert(8);
+tree.insert(10);
+tree.insert(13);
+tree.insert(12);
+tree.insert(14);
+tree.insert(20);
+tree.insert(18);
+tree.insert(25);
+tree.insert(6);
+tree.insert(7);
+
+//tree.inOrderTraverse(printNode);
+//tree.preOrderTraverseNode(printNode);
+//tree.postOrderTraversalNode(printNode);
+//console.log(tree.search(8) ? "Key 8 found." : "Key 8 not found.");
