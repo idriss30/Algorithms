@@ -530,8 +530,8 @@ let Queue2 = (function () {
 })();
 
 //learn about priority queue and circular queue similar to the hot potato game
-/* Linked lists store a sequential collection of elements; but unlike arrays, in linked lists, theelements are not placed contiguously in memory. Each element consists 
-of a node thatstores the element itself and also a reference (also known as a pointer or link) that points tothe next element.     */
+/* Linked lists store a sequential collection of elements; but unlike arrays, in linked lists, the elements are not placed contiguously in memory. Each element consists 
+of a node that stores the element itself and also a reference (also known as a pointer or link) that points tothe next element.     */
 
 function LinkedList() {
   let Node = function (element) {
@@ -657,6 +657,58 @@ let testHash = new HashTable();
 testHash.put("idriss", "idriss@awesome.com");
 testHash.put("chico", "chico@isaNiceDog");
  */
+
+// Dictionnary implementation
+
+function Dictionnary() {
+  let items = {};
+
+  this.set = function (key, value) {
+    items[key] = value;
+  };
+
+  this.delete = function (key) {
+    if (this.has(hey)) {
+      delete items[key];
+      return true;
+    }
+
+    return false;
+  };
+
+  this.has = function (key) {
+    return key in items;
+  };
+  this.get = function (key) {
+    return this.has(key) ? items[key] : undefined;
+  };
+
+  this.clear = function () {
+    return (items = {});
+  };
+  this.size = function () {
+    let count = 0;
+    for (let k in items) {
+      if (items.hasOwnProperty(k)) count++;
+    }
+    return count;
+  };
+
+  this.keys = function () {
+    return Object.keys(items);
+  };
+
+  this.values = function () {
+    let values = [];
+    for (var k in items) {
+      if (this.has(k)) {
+        values.push(items[k]);
+      }
+    }
+
+    return values;
+  };
+}
 
 /* trees
 
@@ -851,3 +903,151 @@ tree.insert(7);
 //tree.preOrderTraverseNode(printNode);
 //tree.postOrderTraversalNode(printNode);
 //console.log(tree.search(8) ? "Key 8 found." : "Key 8 not found.");
+
+// graphs
+/* A graph is an abstract model of a network structure. A graph is a set of nodes (or vertices)
+connected by edges. Learning about graphs is important because any binary relationship
+can be represented by a graph.
+Any social network, such as Facebook, Twitter, and Google+, can be represented by a graph.     */
+//Vertices connected by an edge are called adjacent vertices
+//A degree of a vertex consists of the number of adjacent vertices
+
+//no correct implementation of a graph
+
+// adjency matrix represent the connectivity between vertices using
+//a two-dimensional array, as array[i][j] = = = 1 if there is an edge from the node with index i
+//to the node with index j or as array[i][j] = = = 0 otherwise
+
+// creating the graph
+function Graph() {
+  let vertices = []; // store names of all vertices
+  let adjacentList = new Dictionnary(); // adjacent list
+
+  this.addVertex = function (v) {
+    vertices.push(v);
+    adjacentList.set(v, []);
+  };
+
+  this.addEdge = function (v, w) {
+    adjacentList.get(v).push(w);
+    // working with undirected graph we need to create  an edge from w to v
+    adjacentList.get(w).push(v);
+  };
+
+  this.toString = function () {
+    let string = "";
+    for (let i = 0; i < vertices.length; i++) {
+      string += vertices[i] + "->";
+      let neighbors = adjacentList.get(vertices[i]);
+      for (let j = 0; j < neighbors.length; j++) {
+        string += neighbors[j] + " ";
+      }
+      string += "\n";
+    }
+    return string;
+  };
+
+  /*  this.bfs = function (v, callback) {
+    let color = initializeColor(),
+      queue = new Queue();
+    queue.enqueue(v);
+    while (!queue.isEmpty()) {
+      let u = queue.dequeue(),
+        neighbors = adjacentList.get(u);
+      color[u] = "grey";
+      for (let i = 0; i < neighbors.length; i++) {
+        let w = neighbors[i];
+        if (color[w] === "white") {
+          color[w] = "grey";
+          queue.enqueue(w);
+        }
+      }
+      color[u] = "black";
+      if (callback) {
+        callback(u);
+      }
+    }
+  }; */
+
+  this.bfs = function (v) {
+    var color = initializeColor(),
+      queue = new Queue(),
+      d = [], //{1}
+      pred = []; //{2}
+    queue.enqueue(v);
+    for (var i = 0; i < vertices.length; i++) {
+      //{3}
+      d[vertices[i]] = 0; //{4}
+      pred[vertices[i]] = null; //{5}
+    }
+    while (!queue.isEmpty()) {
+      var u = queue.dequeue(),
+        neighbors = adjacentList.get(u);
+      color[u] = "grey";
+      for (i = 0; i < neighbors.length; i++) {
+        var w = neighbors[i];
+        if (color[w] === "white") {
+          color[w] = "grey";
+          d[w] = d[u] + 1; //{6}
+          pred[w] = u; //{7}
+          queue.enqueue(w);
+        }
+      }
+      color[u] = "black";
+    }
+
+    return {
+      distances: d,
+      predecessors: pred,
+    };
+  };
+}
+
+//testing the result
+let graph = new Graph();
+const myVertices = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+//loop through vertices and add edge
+for (let i = 0; i < myVertices.length; i++) {
+  graph.addVertex(myVertices[i]);
+}
+
+graph.addEdge("A", "B"); //{9}
+graph.addEdge("A", "C");
+graph.addEdge("A", "D");
+graph.addEdge("C", "D");
+graph.addEdge("C", "G");
+graph.addEdge("D", "G");
+graph.addEdge("D", "H");
+graph.addEdge("B", "E");
+graph.addEdge("B", "F");
+graph.addEdge("E", "I");
+
+//console.log(graph.toString());
+
+//There are two
+//algorithms that can be used to traverse a graph, called breadth-first search (BFS) and
+//depth-first search (DFS)
+
+/* The BFS and DFS algorithms are basically the same with only one difference, which is the
+data structure used to store the list of vertices to be visited.    */
+
+// stack for dfs and queue for bfs
+
+//implementation of the bfs algo
+let initializeColor = function () {
+  let color = [];
+  for (let i = 0; i < myVertices.length; i++) {
+    color[myVertices[i]] = "white";
+  }
+  return color;
+};
+function printNode(value) {
+  //{16}
+  console.log("Visited vertex: " + value); //{17}
+}
+//graph.bfs(myVertices[0], printNode);
+
+// check the shorstest path with  second version of bfs
+
+let shortestPath = graph.bfs(myVertices[0]);
+console.log(shortestPath);
