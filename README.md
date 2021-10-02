@@ -1,2 +1,3 @@
 # Algorithms
-implementing  few algorithms and solbing few challenges
+implementing a few algorithms and solving some challenges.
+// stacks queues, dictionnary, trees, graphs 
